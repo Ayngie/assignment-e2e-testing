@@ -1,5 +1,5 @@
 {
-  "include": ["ts/*", "src"],
+  "include": ["ts/*", "src", "cypress/__mocks__"],
   "exclude": ["__test__/*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
