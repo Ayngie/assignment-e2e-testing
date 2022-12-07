@@ -1,6 +1,7 @@
-import { IMovie } from "../../src/ts/models/Movie";
+import { IOmdbResponse } from "../../src/ts/models/IOmdbResponse";
 import { mockData } from "../mocks/movieMocks";
-const emptyMockData: IMovie[] = [];
+
+const emptyMockData: IOmdbResponse = { Search: [] };
 
 describe("movieApp - MOCK calls to API", () => {
   it("should get mockData", () => {
@@ -71,14 +72,14 @@ describe("movieApp - MOCK calls to API", () => {
   it("should get error message if no result from search", () => {
     cy.visit("http://localhost:1234/"); //ladda om sidan
     cy.intercept("GET", "http://omdbapi.com/*", emptyMockData).as(
-      "mockMovieList"
+      "emptyMockMovieList"
     );
 
     cy.get("input").type("kdossd");
     cy.get("input").should("have.value", "kdossd");
     cy.get("button").click();
 
-    cy.wait("@mockMovieList").its("request.url").should("contain", "");
+    cy.wait("@emptyMockMovieList").its("request.url").should("contain", "");
 
     cy.get("p").should("contain", "Inga sökresultat att visa");
   });
