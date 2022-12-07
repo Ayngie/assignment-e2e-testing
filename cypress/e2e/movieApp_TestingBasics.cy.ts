@@ -3,6 +3,10 @@ describe("basic functions of application", () => {
     cy.visit("http://localhost:1234/"); //ladda om sidan
   });
 
+  it("should get the indexpage's title", () => {
+    cy.title().should("include", "Async testing");
+  });
+
   it("should find input and button", () => {
     cy.get("input").should("have.id", "searchText");
     cy.get("button").should("contain", "Sök");
