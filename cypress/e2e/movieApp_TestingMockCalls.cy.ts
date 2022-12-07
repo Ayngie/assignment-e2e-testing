@@ -18,13 +18,22 @@ describe("movieApp - MOCK calls to API", () => {
     cy.get("#movie-container>div").should("have.length", 2);
     cy.get("h3").should("have.length", 2);
     cy.get("img").should("have.length", 2);
+
+    cy.get("#movie-container").find("div").first().as("firstMovie"); //alias
+    cy.get("#movie-container").find("div").next().as("secondMovie"); //alias
+
+    cy.get("@firstMovie").should("contain", "Star");
+    cy.get("@secondMovie").should("contain", "Star");
   });
 
-  it("should dipslay h3:s in html", () => {
-    cy.get("#movie-container>div:first-child")
+  it("should display h3:s in html", () => {
+    cy.get("#movie-container").find("div").first().as("firstMovie"); //alias
+    cy.get("#movie-container").find("div").next().as("secondMovie"); //alias
+
+    cy.get("@firstMovie") /* Vårt alias för #movie-container>div:first-child */
       .find("h3")
       .should("contain", "Star Wars: Episode IV - A New Hope (Mock)");
-    cy.get("#movie-container>div:last-child")
+    cy.get("@secondMovie") /* Vårt alias för #movie-container>div:last-child */
       .find("h3")
       .should(
         "contain",
@@ -33,29 +42,26 @@ describe("movieApp - MOCK calls to API", () => {
   });
 
   it("should display img:s in html", () => {
-    cy.get("#movie-container>div:first-child")
-      .find("img")
-      .should("have.attr", "alt")
-      .should("include", "Star Wars: Episode IV - A New Hope (Mock)");
+    cy.get("#movie-container").find("div").first().as("firstMovie"); //alias
+    cy.get("#movie-container").find("div").next().as("secondMovie"); //alias
 
-    cy.get("#movie-container>div:first-child")
+    cy.get("@firstMovie") /* Vårt alias för #movie-container>div:first-child */
       .find("img")
-      .should(
+      .should("have.attr", "alt", "Star Wars: Episode IV - A New Hope (Mock)")
+      .and(
         "have.attr",
         "src",
         "https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg"
       );
 
-    cy.get("#movie-container>div:last-child")
+    cy.get("@secondMovie") /* Vårt alias för #movie-container>div:last-child */
       .find("img")
-      .should("have.attr", "alt")
       .should(
-        "include",
+        "have.attr",
+        "alt",
         "Star Wars: Episode V - The Empire Strikes Back (Mock)"
-      );
-    cy.get("#movie-container>div:last-child")
-      .find("img")
-      .should(
+      )
+      .and(
         "have.attr",
         "src",
         "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
@@ -76,7 +82,4 @@ describe("movieApp - MOCK calls to API", () => {
 
     cy.get("p").should("contain", "Inga sökresultat att visa");
   });
-
-  it("should ", () => {});
-  it("should ", () => {});
 });
